@@ -1,0 +1,39 @@
+.radio-btn-group {
+    display: flex;
+}
+.radio-btn-group .radio {
+    margin: 0 0.25rem;
+}
+.radio-btn-group .radio label {
+    background: rgb(204, 204, 204);
+    padding: 0.5rem 1.25rem;
+
+    cursor: pointer;
+    color: #444;
+    transition: box-shadow 400ms ease;
+}
+
+.radio-btn-group .radio input[type="radio"] {
+    display: none;
+}
+.radio-btn-group .radio input[type="radio"]:checked + label {
+    background: green;
+    color: #fff;
+    border-color: green;
+}
+.radio-btn-group .radio {
+   padding-left: 0px !important;
+   margin: 0px !important;
+}
+.show {
+    font-weight: 400;
+    color: #444;
+}
+.show span {
+    background: #f5f5f5;
+    color: #f44336;
+    border-radius: 3px;
+    padding: 0.25rem 0.5rem;
+    font-size: 1.25rem;
+    border: 1px solid #f1f1f1;
+}

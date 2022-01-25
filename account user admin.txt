@@ -1,0 +1,78 @@
+login : mehdi@gmail.com
+         
+password : mehdi@1111111111
+
+0602477798
+
+
+
+
+if ( $user->inRole('admin') or $id == 1 )
+        {
+                $orders= Order::all();                
+            
+        }else if ($user->inRole($role) && $role != "admin" ) {
+
+            if ($user->hasAccess(['order.delete_validation']))
+            {
+
+                $orders = Order::where('status', '=', '1' )->get();
+                for($i=0;$i<count($orders);$i++)
+                {
+                    $order= Order::find($orders[$i]->id);
+                    $site= Site::find($orders[$i]->site_id);
+                    $nom_demandeur = $orders[$i]->user->id;
+                    $nom_demandeur= User::find($nom_demandeur);
+                    $nom_demandeur = $nom_demandeur->project[0]->clients_id;
+                    $nom_demandeur = json_decode($nom_demandeur, true);
+                  
+                        $nom_demandeur_id =   $nom_demandeur[0]['id'];
+                  
+                    
+                        for($j=0;$j<count($projet_id_owner_user);$j++){
+
+                            if($nom_demandeur_id == $projet_id_owner_user[$j]["id"]  ){
+
+                                $order_role_validation[]= $orders[$i];
+                                $check_validtion = true ;
+
+                            }
+                        }
+                  
+                }
+
+            }  else  if ($user->hasAccess(['order.view']))
+            {
+                $orders = Order::where('status', '=', '2' )->get();
+                
+            } else  if ($user->hasAccess(['order.create']))
+            {
+                $user = User::find($id) ;   
+
+                $orders = $user->order()->get();
+            } 
+                      
+        }
+
+
+
+
+
+
+        for($i=0;$i<count($orders);$i++)
+        {
+            $order= Order::find($orders[$i]->id);
+            $site= Site::find($orders[$i]->site_id);
+            
+            $att[] =  [ 'id'=>  $orders[$i]->id , 'nom'=> $orders[$i]->user->name   ,'site'=> $site->nom  
+        
+             ,'product_order'=> $order->orderproduct()->get()  ,
+          
+             'status'=> $orders[$i]->status,
+  
+            ];
+        }
+        
+
+        $data = array( 'orders'=> $att , 'user' => $user );
+        return $order_role_validation;
